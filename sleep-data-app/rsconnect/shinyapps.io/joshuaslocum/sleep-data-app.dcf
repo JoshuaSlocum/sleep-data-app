@@ -1,9 +1,11 @@
 name: sleep-data-app
+title:
 account: joshuaslocum
 server: shinyapps.io
 appId: 120691
-bundleId: 534642
+bundleId: 583025
 url: https://joshuaslocum.shinyapps.io/sleep-data-app/
-when: 1471486404.21708
+when: 1476164412.93832
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: import_module.R

@@ -8,43 +8,53 @@
 #
 
 library(shiny)
+library(readr)
+library(dplyr)
+library(ggplot2)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-   
+
    # Application title
-   titlePanel("Old Faithful Geyser Data"),
-   
-   # Sidebar with a slider input for number of bins 
+   titlePanel("Sleep Data Analysis"),
+
    sidebarLayout(
       sidebarPanel(
-         sliderInput("bins",
-                     "Number of bins:",
-                     min = 1,
-                     max = 50,
-                     value = 30)
+        fileInput('sleep_data_raw'
+                  ,'Upload Your Sleep Data CSV'
+                  ,accept = c('text/csv'
+                              ,'text/comma-separated-values'
+                              ,'text/plain'
+                              ,'.csv')
+                  )
       ),
-      
-      # Show a plot of the generated distribution
+
       mainPanel(
-         plotOutput("distPlot")
+        plotOutput("plot_a")
       )
    )
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
-   
-   output$distPlot <- renderPlot({
-      # generate bins based on input$bins from ui.R
-      x    <- faithful[, 2] 
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
-      
-      # draw the histogram with the specified number of bins
-      hist(x, breaks = bins, col = 'darkgray', border = 'white')
-   })
+server <- function(input, output, session) {
+
+  # Import the sleep data
+   raw_data <- reactive({
+    data_file <- input$sleep_data_raw
+    if (is.null(data_file)) {return(NULL)}
+
+    return(readr::read_delim(data_file$datapath, delim = ";"))
+    })
+
+  # Output Scatter Plot of time vs steps
+  output$plot_a <- renderPlot({
+    if (is.null(raw_data())) {return(NULL)}
+    raw_data() %>% ggplot(aes(`Time in bed`, `Activity (steps)`)) + geom_point()
+  })
+
+
 }
 
-# Run the application 
+# Run the application
 shinyApp(ui = ui, server = server)
 

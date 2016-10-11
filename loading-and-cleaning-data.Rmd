@@ -14,4 +14,3 @@ raw_data <- read_delim("sleepdata.csv", delim = ";")
 
 str(raw_data)
 ```
-
