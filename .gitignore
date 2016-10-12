@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# ignore notbook outputs
+*.nb.html
