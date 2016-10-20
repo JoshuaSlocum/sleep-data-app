@@ -9,6 +9,7 @@ In this notebook we will import and clean the data exported from Sleep Cycle.
 ```{r load libs}
 library(readr)
 ```
+
 ```{r import data, cache=TRUE}
 raw_data <- read_delim("sleepdata.csv", delim = ";")
 
